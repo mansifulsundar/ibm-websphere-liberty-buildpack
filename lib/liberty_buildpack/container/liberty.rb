@@ -31,7 +31,7 @@ require 'liberty_buildpack/util/format_duration'
 require 'liberty_buildpack/util/properties'
 require 'liberty_buildpack/util/license_management'
 require 'open-uri'
-require 'config'
+require 'yaml'
 
 module LibertyBuildpack::Container
   # Encapsulates the detect, compile, and release functionality for Liberty applications.
