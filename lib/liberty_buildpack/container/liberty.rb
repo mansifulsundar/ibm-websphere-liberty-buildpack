@@ -38,7 +38,7 @@ module LibertyBuildpack::Container
   class Liberty
 
     include LibertyBuildpack::Util
-    WINK_CONFIG = "../../config/restwink.yml"
+   # WINK_CONFIG = "../../config/restwink.yml"
     # Creates an instance, passing in an arbitrary collection of options.
     #
     # @param [Hash] context the context that is provided to the instance
@@ -419,9 +419,9 @@ module LibertyBuildpack::Container
      def download_and_install_wink
         Dir.mktmpdir do |root|
           
-           wink_package = wink_config['repository_root']
-           wink_version = wink_config['version']
-           uri=wink_package
+          # wink_package = wink_config['repository_root']
+           #wink_version = wink_config['version']
+           uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
            download_and_unpack_archive(uri, root)
         end
       end
