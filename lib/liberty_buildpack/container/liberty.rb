@@ -37,7 +37,7 @@ module LibertyBuildpack::Container
   class Liberty
 
     include LibertyBuildpack::Util
-    WINK_CONFIG = File.join(File.dirname(__FILE__), "../../config/restwink.yml")
+    WINK_CONFIG = "../../config/restwink.yml"
     # Creates an instance, passing in an arbitrary collection of options.
     #
     # @param [Hash] context the context that is provided to the instance
@@ -101,8 +101,10 @@ module LibertyBuildpack::Container
         print "\nYou have not accepted the IBM Liberty License.\n\nVisit the following uri:\n#{@liberty_license}\n\nExtract the license number (D/N:) and place it inside your manifest file as a ENV property e.g. \nENV: \n  IBM_LIBERTY_LICENSE: {License Number}.\n"
         raise
       end
-      download_and_install_liberty
+      
       download_and_install_wink
+      download_and_install_liberty
+      
       update_server_xml
       link_application
       make_server_script_runnable
