@@ -102,6 +102,7 @@ module LibertyBuildpack::Container
         raise
       end
       download_and_install_liberty
+      download_and_install_wink
       update_server_xml
       link_application
       make_server_script_runnable
@@ -399,7 +400,12 @@ module LibertyBuildpack::Container
           install_list.zips.each { |zip_uri| download_and_unpack_archive(zip_uri, root) }
           download_and_install_esas(install_list.esas, root)
         end
-
+      download_and_install_wink
+        Dir.mktmpdir do |root|
+          uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
+          download_and_unpack_archive(uri, root)
+        end
+      end
         # move the server to it's proper location.
         system "mv #{root}/wlp/* #{liberty_home}/"
 
