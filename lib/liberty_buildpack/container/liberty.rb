@@ -400,12 +400,7 @@ module LibertyBuildpack::Container
           install_list.zips.each { |zip_uri| download_and_unpack_archive(zip_uri, root) }
           download_and_install_esas(install_list.esas, root)
         end
-      download_and_install_wink
-        Dir.mktmpdir do |root|
-          uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
-          download_and_unpack_archive(uri, root)
-        end
-      end
+     
         # move the server to it's proper location.
         system "mv #{root}/wlp/* #{liberty_home}/"
 
@@ -416,6 +411,14 @@ module LibertyBuildpack::Container
         @services_manager.install_client_jars(@liberty_components_and_uris, current_server_dir)
       end
     end
+    
+    
+     download_and_install_wink
+        Dir.mktmpdir do |root|
+          uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
+          download_and_unpack_archive(uri, root)
+        end
+      end
 
     # is the given liberty component required ? It may be non-optional, in which
     # case it is required, or it may be optional, in which case it is required
@@ -730,6 +733,6 @@ module LibertyBuildpack::Container
     end
 
   end
-end
+
 
 end
