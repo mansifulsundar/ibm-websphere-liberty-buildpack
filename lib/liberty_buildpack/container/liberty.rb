@@ -37,7 +37,7 @@ module LibertyBuildpack::Container
   class Liberty
 
     include LibertyBuildpack::Util
-    WINK_CONFIG = File.join(File.dirname(__FILE__), "../../config/wink.yml")
+    WINK_CONFIG = File.join(File.dirname(__FILE__), "../../config/restwink.yml")
     # Creates an instance, passing in an arbitrary collection of options.
     #
     # @param [Hash] context the context that is provided to the instance
