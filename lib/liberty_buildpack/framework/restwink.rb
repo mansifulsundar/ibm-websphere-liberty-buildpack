@@ -27,7 +27,7 @@ module LibertyBuildpack::Framework
 
   # Encapsulates the detect, compile, and release functionality for enabling cloud auto-reconfiguration in Spring
   # applications.
-  class SpringAutoReconfiguration
+  class RestWink
 
     # Creates an instance, passing in an arbitrary collection of options.
     #
@@ -47,7 +47,7 @@ module LibertyBuildpack::Framework
     # @return [String] returns +spring-auto-reconfiguration-<version>+ if the application is a candidate for
     #                  auto-reconfiguration otherwise returns +nil+
     def detect
-      @auto_reconfiguration_version, @auto_reconfiguration_uri = SpringAutoReconfiguration.find_auto_reconfiguration(@app_dir, @configuration)
+      @auto_reconfiguration_version, @auto_reconfiguration_uri = RestWink.find_auto_reconfiguration(@app_dir, @configuration)
       @auto_reconfiguration_version ? id(@auto_reconfiguration_version) : nil
     end
 
@@ -57,8 +57,8 @@ module LibertyBuildpack::Framework
     def compile
       detect if @auto_reconfiguration_uri.nil?
       LibertyBuildpack::Util.download(@auto_reconfiguration_version, @auto_reconfiguration_uri, 'Auto Reconfiguration', jar_name(@auto_reconfiguration_version), @lib_directory)
-      FrameworkUtils.link_libs(SpringAutoReconfiguration.spring_apps(@app_dir), @lib_directory)
-      SpringAutoReconfiguration.spring_apps(@app_dir).each { |app| modify_web_xml(app) }
+      FrameworkUtils.link_libs(RestWink.wink_apps(@app_dir), @lib_directory)
+      RestWink.wink_apps(@app_dir).each { |app| modify_web_xml(app) }
     end
 
     # Does nothing
@@ -69,13 +69,13 @@ module LibertyBuildpack::Framework
 
     private
 
-      SPRING_JAR_PATTERN = 'spring-core*.jar'
-      SPRING_APPS_PATTERN = "#{@app_dir}/**/#{SPRING_JAR_PATTERN}"
+      WINK_JAR_PATTERN = 'wink.*.jar'
+      WINK_APPS_PATTERN = "#{@app_dir}/**/#{WINK_JAR_PATTERN}"
 
       WEB_XML = File.join 'WEB-INF', 'web.xml'
 
       def self.find_auto_reconfiguration(app_dir, configuration)
-        if spring_application?(app_dir)
+        if wink_application?(app_dir)
           version, uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(configuration)
         else
           version = nil
@@ -85,35 +85,35 @@ module LibertyBuildpack::Framework
       end
 
       def id(version)
-        "spring-auto-reconfiguration-#{version}"
+        "wink-reconfiguration-#{version}"
       end
 
       def jar_name(version)
         "#{id version}.jar"
       end
 
-      def modify_web_xml(app_dir)
-        web_xml = File.join app_dir, WEB_XML
+      #def modify_web_xml(app_dir)
+       # web_xml = File.join app_dir, WEB_XML
 
-        if File.exists? web_xml
-          puts '       Modifying /WEB-INF/web.xml for Auto Reconfiguration'
-          @logger.debug { "  Original web.xml: #{File.read web_xml}" }
+        #if File.exists? web_xml
+         # puts '       Modifying /WEB-INF/web.xml for Auto Reconfiguration'
+         # @logger.debug { "  Original web.xml: #{File.read web_xml}" }
 
-          modifier = File.open(web_xml) { |file| WebXmlModifier.new(file) }
-          modifier.augment_root_context
-          modifier.augment_servlet_contexts
+          #modifier = File.open(web_xml) { |file| WebXmlModifier.new(file) }
+          #modifier.augment_root_context
+          #modifier.augment_servlet_contexts
 
-          File.open(web_xml, 'w') { |file| file.write(modifier.to_s) }
-          @logger.debug { "  Modified web.xml: #{File.read web_xml}" }
-        end
+          #File.open(web_xml, 'w') { |file| file.write(modifier.to_s) }
+          #@logger.debug { "  Modified web.xml: #{File.read web_xml}" }
+        #end
+      #end
+
+      def self.wink_application?(app_dir)
+        RestWink.wink_apps(app_dir) != []
       end
 
-      def self.spring_application?(app_dir)
-        SpringAutoReconfiguration.spring_apps(app_dir) != []
-      end
-
-      def self.spring_apps(app_dir)
-        pattern = "#{app_dir}/**/#{SPRING_JAR_PATTERN}"
+      def self.wink_apps(app_dir)
+        pattern = "#{app_dir}/**/#{WINK_JAR_PATTERN}"
         (shared_libs = FrameworkUtils.find_shared_libs(app_dir, pattern)) unless Dir.glob("#{app_dir}/**/wlp").each { |file| File.directory? file }.empty?
         if !shared_libs.nil? && !shared_libs.empty?
           s_apps = FrameworkUtils.find(app_dir)
