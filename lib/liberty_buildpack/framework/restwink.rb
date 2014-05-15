@@ -55,10 +55,11 @@ module LibertyBuildpack::Framework
     #
     # @return [void]
     def compile
+      print "This is Rest Wink app now executing compile script....\n\n"
       detect if @auto_reconfiguration_uri.nil?
       LibertyBuildpack::Util.download(@auto_reconfiguration_version, @auto_reconfiguration_uri, 'Auto Reconfiguration', jar_name(@auto_reconfiguration_version), @lib_directory)
       FrameworkUtils.link_libs(RestWink.wink_apps(@app_dir), @lib_directory)
-      RestWink.wink_apps(@app_dir).each { |app| modify_web_xml(app) }
+      #RestWink.wink_apps(@app_dir).each { |app| modify_web_xml(app) }
     end
 
     # Does nothing
