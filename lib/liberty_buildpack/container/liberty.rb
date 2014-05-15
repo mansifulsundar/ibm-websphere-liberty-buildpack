@@ -37,7 +37,7 @@ module LibertyBuildpack::Container
   class Liberty
 
     include LibertyBuildpack::Util
-
+    WINK_CONFIG = File.join(File.dirname(__FILE__), "../../config/wink.yml")
     # Creates an instance, passing in an arbitrary collection of options.
     #
     # @param [Hash] context the context that is provided to the instance
@@ -415,11 +415,18 @@ module LibertyBuildpack::Container
     
      def download_and_install_wink
         Dir.mktmpdir do |root|
-          uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
-          download_and_unpack_archive(uri, root)
+          
+           wink_package = wink_config['repository_root']
+           wink_version = wink_config['version']
+           uri=wink_package
+           download_and_unpack_archive(uri, root)
         end
       end
 
+
+    def wink_config
+      YAML.load_file(File.expand_path(WINK_CONFIG))
+    end
     # is the given liberty component required ? It may be non-optional, in which
     # case it is required, or it may be optional, in which case it is required
     # if one of the features it supplies is requested in a server.xml.
