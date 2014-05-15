@@ -102,6 +102,7 @@ module LibertyBuildpack::Container
         raise
       end
       download_and_install_liberty
+      download_and_install_wink
       update_server_xml
       link_application
       make_server_script_runnable
@@ -411,6 +412,17 @@ module LibertyBuildpack::Container
       end
     end
 
+  
+    download_and_install_wink 
+    
+       Dir.mktmpdir do |root|
+          uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
+          download_and_unpack_archive(uri, root)
+       end
+    end
+  
+  
+  
     # is the given liberty component required ? It may be non-optional, in which
     # case it is required, or it may be optional, in which case it is required
     # if one of the features it supplies is requested in a server.xml.
