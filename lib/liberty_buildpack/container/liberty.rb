@@ -413,7 +413,7 @@ module LibertyBuildpack::Container
     end
     
     
-     download_and_install_wink
+     def download_and_install_wink
         Dir.mktmpdir do |root|
           uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
           download_and_unpack_archive(uri, root)
