@@ -103,7 +103,7 @@ module LibertyBuildpack::Container
         raise
       end
       
-      download_and_install_wink
+      #download_and_install_wink
       download_and_install_liberty
       
       update_server_xml
