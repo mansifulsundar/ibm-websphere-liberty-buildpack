@@ -730,5 +730,6 @@ module LibertyBuildpack::Container
     end
 
   end
+end
 
 end
