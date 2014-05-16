@@ -385,8 +385,8 @@ module LibertyBuildpack::Container
         uri = @liberty_components_and_uris[COMPONENT_LIBERTY_CORE]
         
         
-        print  @liberty_components_and_uris
-        print "\n\n"
+        #print  @liberty_components_and_uris
+        #print "\n\n"
         fail 'No Liberty download defined in buildpack.' if uri.nil?
         download_and_unpack_archive(uri, root)
         # read opt-out of service bindings information from env (manifest.yml) and create services manager.
