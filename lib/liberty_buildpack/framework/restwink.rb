@@ -27,7 +27,7 @@ module LibertyBuildpack::Framework
 
   # Encapsulates the detect, compile, and release functionality for enabling cloud auto-reconfiguration in Spring
   # applications.
-  class SpringAutoReconfiguration
+  class RestWink
 
     # Creates an instance, passing in an arbitrary collection of options.
     #
