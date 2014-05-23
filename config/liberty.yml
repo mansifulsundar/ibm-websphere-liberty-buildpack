@@ -15,8 +15,7 @@
 
 # Configuration for the Liberty container
 ---
-repository_root: "http://54.252.158.236/jarandindex/"
-version: 8.5.+
+repository_root: "http://54.252.158.236/winkbinaries/
 minify: false
 liberty_repository_properties:
   useRepository: true
