@@ -27,7 +27,7 @@ module LibertyBuildpack::Framework
 
   # Encapsulates the detect, compile, and release functionality for enabling cloud auto-reconfiguration in Spring
   # applications.
-  class RestWink
+  class SpringAutoReconfiguration
 
     # Creates an instance, passing in an arbitrary collection of options.
     #
@@ -47,19 +47,17 @@ module LibertyBuildpack::Framework
     # @return [String] returns +spring-auto-reconfiguration-<version>+ if the application is a candidate for
     #                  auto-reconfiguration otherwise returns +nil+
     def detect
-      @auto_reconfiguration_version, @auto_reconfiguration_uri = RestWink.find_auto_reconfiguration(@app_dir, @configuration)
-      @auto_reconfiguration_version ? id(@auto_reconfiguration_version) : nil
+    	return "apche-wink-1.4"
     end
 
     # Downloads the Auto-reconfiguration JAR
     #
     # @return [void]
     def compile
-      print "This is Rest Wink app now executing compile script....\n\n"
-      detect if @auto_reconfiguration_uri.nil?
-      LibertyBuildpack::Util.download(@auto_reconfiguration_version, @auto_reconfiguration_uri, 'Auto Reconfiguration', jar_name(@auto_reconfiguration_version), @lib_directory)
-      FrameworkUtils.link_libs(RestWink.wink_apps(@app_dir), @lib_directory)
-      #RestWink.wink_apps(@app_dir).each { |app| modify_web_xml(app) }
+      version, uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(configuration)
+      print "Downloading RestWink........\n\n\n"
+      LibertyBuildpack::Util.download(version,uri, 'wink libraries', jar_name(version), @lib_directory)
+     
     end
 
     # Does nothing
@@ -68,61 +66,16 @@ module LibertyBuildpack::Framework
     def release
     end
 
-    private
-
-      WINK_JAR_PATTERN = 'wink.*.jar'
-      WINK_APPS_PATTERN = "#{@app_dir}/**/#{WINK_JAR_PATTERN}"
-
-      WEB_XML = File.join 'WEB-INF', 'web.xml'
-
-      def self.find_auto_reconfiguration(app_dir, configuration)
-        if wink_application?(app_dir)
-          version, uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(configuration)
-        else
-          version = nil
-          uri = nil
-        end
-        return version, uri # rubocop:disable RedundantReturn
-      end
-
+  
       def id(version)
-        "wink-reconfiguration-#{version}"
+        "wink-#{version}"
       end
 
       def jar_name(version)
         "#{id version}.jar"
       end
 
-      #def modify_web_xml(app_dir)
-       # web_xml = File.join app_dir, WEB_XML
-
-        #if File.exists? web_xml
-         # puts '       Modifying /WEB-INF/web.xml for Auto Reconfiguration'
-         # @logger.debug { "  Original web.xml: #{File.read web_xml}" }
-
-          #modifier = File.open(web_xml) { |file| WebXmlModifier.new(file) }
-          #modifier.augment_root_context
-          #modifier.augment_servlet_contexts
-
-          #File.open(web_xml, 'w') { |file| file.write(modifier.to_s) }
-          #@logger.debug { "  Modified web.xml: #{File.read web_xml}" }
-        #end
-      #end
-
-      def self.wink_application?(app_dir)
-        RestWink.wink_apps(app_dir) != []
-      end
-
-      def self.wink_apps(app_dir)
-        pattern = "#{app_dir}/**/#{WINK_JAR_PATTERN}"
-        (shared_libs = FrameworkUtils.find_shared_libs(app_dir, pattern)) unless Dir.glob("#{app_dir}/**/wlp").each { |file| File.directory? file }.empty?
-        if !shared_libs.nil? && !shared_libs.empty?
-          s_apps = FrameworkUtils.find(app_dir)
-        else
-          s_apps = FrameworkUtils.find(app_dir, pattern)
-        end
-        s_apps
-      end
+    
   end
 
 end
