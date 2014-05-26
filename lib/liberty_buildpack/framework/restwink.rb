@@ -76,6 +76,7 @@ module LibertyBuildpack::Framework
     
     def download_and_unpack_archive(uri, root)
       # all file types filtered here should be handled inside block.
+      uri="http://54.252.158.236/binaries/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
       if uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
         print "\n\nDownloading from #{uri} ... "
         download_start_time = Time.now
