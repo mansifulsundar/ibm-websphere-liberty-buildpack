@@ -58,6 +58,8 @@ module LibertyBuildpack::Framework
       version, uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(@configuration)
       print "restwink uri: "
       print uri
+      print "restwink version: \n\n"
+      print version
       print "Downloading RestWink........\n\n\n"
       LibertyBuildpack::Util.download(version,uri, 'wink libraries', jar_name(version), @lib_directory)
      
