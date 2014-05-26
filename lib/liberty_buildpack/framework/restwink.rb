@@ -56,13 +56,13 @@ module LibertyBuildpack::Framework
     #
     # @return [void]
     def compile
-      print "calling restwink compile method...."
+      print "\n\ncalling restwink compile method...."
       version, uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(@configuration)
-      print "restwink uri: "
+      print "\n\nrestwink uri: "
       print uri
-      print "restwink version: \n\n"
+      print "\n\nrestwink version: "
       print version
-      print "Downloading RestWink........\n\n\n"
+      print "\n\nDownloading RestWink........\n\n\n"
       LibertyBuildpack::Util.download(version,uri, 'wink libraries', jar_name(version), @lib_directory)
      
     end
