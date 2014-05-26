@@ -61,13 +61,14 @@ module LibertyBuildpack::Framework
     # @return [void]
     def compile
       print "\n\ncalling restwink compile method...."
-      version, uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(@configuration)
-      print "\n\nrestwink uri: "
-      print uri
-      print "\n\nrestwink version: "
-      print version
+     
       Dir.mktmpdir do |root|
-      download_and_unpack_archive(uri, root)
+         version, uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(@configuration)
+         print "\n\nrestwink uri: "
+         print uri
+         print "\n\nrestwink version: "
+         print version
+         download_and_unpack_archive(uri, root)
       end
       #LibertyBuildpack::Util.download(version,uri, 'wink libraries', jar_name(version), @lib_directory)
      
@@ -76,7 +77,7 @@ module LibertyBuildpack::Framework
     
     def download_and_unpack_archive(uri, root)
       # all file types filtered here should be handled inside block.
-     uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
+     #uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
       if uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
         print "\n\nDownloading from #{uri} ... "
         download_start_time = Time.now
