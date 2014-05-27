@@ -68,51 +68,51 @@ module LibertyBuildpack::Framework
          print uri
          print "\n\nrestwink version: "
          print version
-        # download_and_unpack_archive(uri, root)
-        
-         if uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
-           print "\n\nDownloading from #{uri} ... "
-          download_start_time = Time.now
-          LibertyBuildpack::Util::ApplicationCache.new.get(uri) do |file|
-          print "(#{(Time.now - download_start_time).duration}).\n"
-          #install_archive(file, uri, root)
-          print 'Installing archive ... '
-           install_start_time = Time.now
-          if uri.end_with?('.zip', 'jar')
-           system "unzip -oq -d #{root} #{file.path} 2>&1"
-          elsif uri.end_with?('tar.gz', '.tgz')
-           system "tar -zxf #{file.path} -C #{root} 2>&1"
-         else
-           # shouldn't really happen
-          print("Unknown file type, not installed, at #{uri}.\n")
-          end
-          puts "(#{(Time.now - install_start_time).duration}).\n"
-         end
-         else
-        # shouldn't happen, expect index.yml or component_index.yml to always
-        # name files that can be handled here.
-          print("Unknown file type, not downloaded, at #{uri}\n")
-        end
-          print("\n")
-        end
-        
+         download_and_unpack_archive(uri, root)
+          end  
         
       #LibertyBuildpack::Util.download(version,uri, 'wink libraries', jar_name(version), @lib_directory)
      
     end
     
     
-   # def download_and_unpack_archive(uri, root)
+    def download_and_unpack_archive(uri, root)
       # all file types filtered here should be handled inside block.
      #uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
      
-    #end
+     if uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
+           print "\n\nDownloading from #{uri} ... "
+           download_start_time = Time.now
+           LibertyBuildpack::Util::ApplicationCache.new.get(uri) do |file|
+           print "(#{(Time.now - download_start_time).duration}).\n"
+           install_archive(file, uri, root)
+         
+      else
+        # shouldn't happen, expect index.yml or component_index.yml to always
+        # name files that can be handled here.
+          print("Unknown file type, not downloaded, at #{uri}\n")
+      end
+          print("\n")
+        end
+        puts "(#{(Time.now - install_start_time).duration}).\n"
+     
+    end
 
 
 
-    #def install_archive(file, uri, root)
-      
-    #end
+    def install_archive(file, uri, root)
+         print 'Installing archive ... '
+           install_start_time = Time.now
+          if uri.end_with?('.zip', 'jar')
+           system "unzip -oq -d #{root} #{file.path} 2>&1"
+          elsif uri.end_with?('tar.gz', '.tgz')
+           system "tar -zxf #{file.path} -C #{root} 2>&1"
+           else
+           # shouldn't really happen
+          print("Unknown file type, not installed, at #{uri}.\n")
+          end
+          
+    end
     # Does nothing
     #
     # @return [void]
