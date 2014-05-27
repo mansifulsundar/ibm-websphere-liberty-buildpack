@@ -65,7 +65,7 @@ module LibertyBuildpack::Framework
       Dir.mktmpdir do |root|
          @version, @uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(@configuration)
          print "\n\nrestwink uri: "
-         print uri
+         print@uri
          print "\n\nrestwink version: "
          print version
          download_and_unpack_archive(@uri, root)
@@ -76,16 +76,16 @@ module LibertyBuildpack::Framework
     end
     
     
-    def download_and_unpack_archive(uri, root)
+    def download_and_unpack_archive(package_uri, root)
       # all file types filtered here should be handled inside block.
      #uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
      
      #if uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
            print "\n\nDownloading from #{uri} ... "
            download_start_time = Time.now
-           LibertyBuildpack::Util::ApplicationCache.new.get(uri) do |file|
+           LibertyBuildpack::Util::ApplicationCache.new.get(package_uri) do |file|
            print "(#{(Time.now - download_start_time).duration}).\n"
-           install_archive(file, uri, root)
+           install_archive(file, package_uri, root)
             end
      #else
         # shouldn't happen, expect index.yml or component_index.yml to always
@@ -96,7 +96,7 @@ module LibertyBuildpack::Framework
 
 
 
-    def install_archive(file, uri, root)
+    def install_archive(file, package_uri, root)
            print 'Installing archive ... '
            install_start_time = Time.now
       #     if uri.end_with?('.zip', 'jar')
