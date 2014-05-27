@@ -67,7 +67,7 @@ module LibertyBuildpack::Framework
          print "\n\nrestwink uri: "
          print@uri
          print "\n\nrestwink version: "
-         print version
+         print @version
          download_and_unpack_archive(@uri, root)
       end  
         
