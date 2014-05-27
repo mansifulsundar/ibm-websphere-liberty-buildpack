@@ -75,7 +75,18 @@ module LibertyBuildpack::Framework
           download_start_time = Time.now
           LibertyBuildpack::Util::ApplicationCache.new.get(uri) do |file|
           print "(#{(Time.now - download_start_time).duration}).\n"
-          install_archive(file, uri, root)
+          #install_archive(file, uri, root)
+          print 'Installing archive ... '
+           install_start_time = Time.now
+          if uri.end_with?('.zip', 'jar')
+           system "unzip -oq -d #{root} #{file.path} 2>&1"
+          elsif uri.end_with?('tar.gz', '.tgz')
+           system "tar -zxf #{file.path} -C #{root} 2>&1"
+         else
+           # shouldn't really happen
+          print("Unknown file type, not installed, at #{uri}.\n")
+          end
+          puts "(#{(Time.now - install_start_time).duration}).\n"
          end
          else
         # shouldn't happen, expect index.yml or component_index.yml to always
@@ -85,17 +96,7 @@ module LibertyBuildpack::Framework
           print("\n")
         end
         
-        print 'Installing archive ... '
-        install_start_time = Time.now
-        if uri.end_with?('.zip', 'jar')
-          system "unzip -oq -d #{root} #{file.path} 2>&1"
-        elsif uri.end_with?('tar.gz', '.tgz')
-          system "tar -zxf #{file.path} -C #{root} 2>&1"
-        else
-          # shouldn't really happen
-          print("Unknown file type, not installed, at #{uri}.\n")
-        end
-        puts "(#{(Time.now - install_start_time).duration}).\n"
+        
       #LibertyBuildpack::Util.download(version,uri, 'wink libraries', jar_name(version), @lib_directory)
      
     end
