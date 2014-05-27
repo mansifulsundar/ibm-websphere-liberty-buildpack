@@ -63,12 +63,12 @@ module LibertyBuildpack::Framework
       print "\n\ncalling restwink compile method...."
      
       Dir.mktmpdir do |root|
-         version, uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(@configuration)
+         @version, @uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(@configuration)
          print "\n\nrestwink uri: "
          print uri
          print "\n\nrestwink version: "
          print version
-         download_and_unpack_archive(uri, root)
+         download_and_unpack_archive(@uri, root)
       end  
         
       #LibertyBuildpack::Util.download(version,uri, 'wink libraries', jar_name(version), @lib_directory)
