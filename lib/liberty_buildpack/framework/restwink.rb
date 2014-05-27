@@ -81,7 +81,7 @@ module LibertyBuildpack::Framework
      #uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
      
      #if uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
-           print "\n\nDownloading from #{uri} ... "
+           print "\n\nDownloading from #{package_uri} ... "
            download_start_time = Time.now
            LibertyBuildpack::Util::ApplicationCache.new.get(package_uri) do |file|
            print "(#{(Time.now - download_start_time).duration}).\n"
