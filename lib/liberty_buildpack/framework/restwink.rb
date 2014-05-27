@@ -65,7 +65,7 @@ module LibertyBuildpack::Framework
       Dir.mktmpdir do |root|
          @version, @uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(@configuration)
          print "\n\nrestwink uri: "
-         print@uri
+         print @uri
          print "\n\nrestwink version: "
          print @version
          download_and_unpack_archive(@uri, root)
