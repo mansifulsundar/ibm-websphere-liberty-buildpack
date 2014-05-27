@@ -86,7 +86,7 @@ module LibertyBuildpack::Framework
            LibertyBuildpack::Util::ApplicationCache.new.get(uri) do |file|
            print "(#{(Time.now - download_start_time).duration}).\n"
            install_archive(file, uri, root)
-      #   end
+            end
      #else
         # shouldn't happen, expect index.yml or component_index.yml to always
         # name files that can be handled here.
