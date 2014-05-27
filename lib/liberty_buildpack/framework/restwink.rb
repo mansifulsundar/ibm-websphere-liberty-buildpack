@@ -63,30 +63,34 @@ module LibertyBuildpack::Framework
       print "\n\ncalling restwink compile method...."
      
       Dir.mktmpdir do |root|
-        uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
-       #  @version, @uri = LibertyBuildpack::Repository::ConfiguredItem.find_item(@configuration)
-        # print "\n\nrestwink uri: "
-         #print @uri
-         #print "\n\nrestwink version: "
-         #print @version
-         download_and_unpack_archive(uri, root)
+        #uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
+        @version, @uri = get_wink_uri(@configuration)
+         print "\n\nrestwink uri: "
+         print @uri
+         print "\n\nrestwink version: "
+         print @version
+         download_and_unpack_archive(root)
       end  
         
       #LibertyBuildpack::Util.download(version,uri, 'wink libraries', jar_name(version), @lib_directory)
      
     end
     
+    def get_wink_uri(configuration)
+      version, uri=LibertyBuildpack::Repository::ConfiguredItem.find_item(configuration)
+      return version, uri
+    end
     
-    def download_and_unpack_archive(package_uri, root)
+    def download_and_unpack_archive(root)
       # all file types filtered here should be handled inside block.
      
      
      #if uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
-           print "\n\nDownloading from #{package_uri} ... "
+           print "\n\nDownloading from #{@uri} ... "
            download_start_time = Time.now
-           LibertyBuildpack::Util::ApplicationCache.new.get(package_uri) do |file|
+           LibertyBuildpack::Util::ApplicationCache.new.get(@uri) do |file|
            print "(#{(Time.now - download_start_time).duration}).\n"
-           install_archive(file, package_uri, root)
+           install_archive(file, root)
             end
      #else
         # shouldn't happen, expect index.yml or component_index.yml to always
@@ -97,7 +101,7 @@ module LibertyBuildpack::Framework
 
 
 
-    def install_archive(file, package_uri, root)
+    def install_archive(file, root)
            print 'Installing archive ... '
            install_start_time = Time.now
       #     if uri.end_with?('.zip', 'jar')
