@@ -78,6 +78,7 @@ module LibertyBuildpack::Framework
     
     def get_wink_uri(configuration)
       version, uri=LibertyBuildpack::Repository::ConfiguredItem.find_item(configuration)
+      uri=uri.to_s()
       return version, uri
     end
     
