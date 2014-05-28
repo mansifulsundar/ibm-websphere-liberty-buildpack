@@ -72,7 +72,7 @@ module LibertyBuildpack::Framework
        #  download_and_unpack_archive(root)
       #end  
         
-      LibertyBuildpack::Util.download(version,uri, 'wink libraries', jar_name(version), @lib_directory)
+      LibertyBuildpack::Util.download(@version,@uri, 'wink libraries', jar_name(version), @lib_directory)
      
     end
     
