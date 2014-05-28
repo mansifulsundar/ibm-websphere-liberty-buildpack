@@ -107,14 +107,14 @@ module LibertyBuildpack::Framework
     def install_archive(file, root)
            print '------->Installing archive ... '
            install_start_time = Time.now
-          if @uri.end_with?('.zip', 'jar')
-               system "unzip -oq -d #{root} #{file.path} 2>&1"
-           elsif @uri.end_with?('tar.gz', '.tgz')
+         # if @uri.end_with?('.zip', 'jar')
+          #     system "unzip -oq -d #{root} #{file.path} 2>&1"
+           #elsif @uri.end_with?('tar.gz', '.tgz')
                system "tar -zxf #{file.path} -C #{root} 2>&1"
-           else
+           #else
                # shouldn't really happen
-               print("Unknown file type, not installed, at #{@uri}.\n")
-           end
+            #   print("Unknown file type, not installed, at #{@uri}.\n")
+           #end
            print("\n")
            puts "(#{(Time.now - install_start_time).duration}).\n"
      
