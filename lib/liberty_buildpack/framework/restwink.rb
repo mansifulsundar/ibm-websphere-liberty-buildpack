@@ -62,17 +62,17 @@ module LibertyBuildpack::Framework
     def compile
       print "\n\ncalling restwink compile method...."
      
-      Dir.mktmpdir do |root|
+      #Dir.mktmpdir do |root|
         #uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
         @version, @uri = get_wink_uri(@configuration)
          print "\n\nrestwink uri: "
          print @uri
          print "\n\nrestwink version: "
          print @version
-         download_and_unpack_archive(root)
-      end  
+       #  download_and_unpack_archive(root)
+      #end  
         
-      #LibertyBuildpack::Util.download(version,uri, 'wink libraries', jar_name(version), @lib_directory)
+      LibertyBuildpack::Util.download(version,uri, 'wink libraries', jar_name(version), @lib_directory)
      
     end
     
