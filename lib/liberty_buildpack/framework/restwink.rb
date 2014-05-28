@@ -88,7 +88,7 @@ module LibertyBuildpack::Framework
       # all file types filtered here should be handled inside block.
      
      
-     if uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
+     if @uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
            print "\n\n----->Downloading from #{@uri} ... "
            download_start_time = Time.now
            LibertyBuildpack::Util::ApplicationCache.new.get(@uri) do |file|
