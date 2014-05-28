@@ -88,18 +88,18 @@ module LibertyBuildpack::Framework
       # all file types filtered here should be handled inside block.
      
      
-     if @uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
+     #if @uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
            print "\n\n----->Downloading from #{@uri} ... "
            download_start_time = Time.now
            LibertyBuildpack::Util::ApplicationCache.new.get(@uri) do |file|
            print "(#{(Time.now - download_start_time).duration}).\n"
            install_archive(file, root)
             end
-     else
+     #else
         # shouldn't happen, expect index.yml or component_index.yml to always
         # name files that can be handled here.
-          print("Unknown file type, not downloaded, at #{@uri}\n")
-     end
+      #    print("Unknown file type, not downloaded, at #{@uri}\n")
+     #end
     end
 
 
