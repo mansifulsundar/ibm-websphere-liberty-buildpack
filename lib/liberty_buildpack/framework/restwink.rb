@@ -66,7 +66,7 @@ module LibertyBuildpack::Framework
         #uri="http://54.252.158.236/winkbinaries/1.4.0/apache-wink-1.4.tar.gz"
         @version, @uri = get_wink_uri(@configuration)
          print "\n\nrestwink uri: "
-         print @uri[uri]
+         print @uri
          print "\n\nrestwink version: "
          print @version
        #  download_and_unpack_archive(root)
@@ -78,10 +78,9 @@ module LibertyBuildpack::Framework
     
     def get_wink_uri(configuration)
       version, uri=LibertyBuildpack::Repository::ConfiguredItem.find_item(configuration)
-      for i in uri do
-        print uri[i]
-    end
+      uri=uri["uri"]
       return version, uri
+  
     end
     
     def download_and_unpack_archive(root)
