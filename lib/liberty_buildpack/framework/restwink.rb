@@ -73,10 +73,11 @@ module LibertyBuildpack::Framework
       
       download_start_time = Time.now
       jar_name=jar_name(@version)
-      print "-----> Downloading #{jar_name} from #{@uri} "
+      print "-----> Downloading wink libraries from #{@uri} "
 
       LibertyBuildpack::Util::ApplicationCache.new.get(@uri) do |file| # TODO: Use global cache #50175265
         system "cp #{file.path} #{File.join(@lib_directory, jar_name)}"
+        print "\n------>Copied jar to #{@lib_directory...}"
         puts "(#{(Time.now - download_start_time).duration})"
       end
   end
