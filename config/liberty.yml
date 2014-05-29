@@ -15,7 +15,7 @@
 
 # Configuration for the Liberty container
 ---
-repository_root: "http://54.252.158.236/jarandindex/"
+repository_root: "https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/wasdev/downloads/wlp/"
 minify: false
 liberty_repository_properties:
   useRepository: true
