@@ -64,73 +64,30 @@ module LibertyBuildpack::Framework
     # @return [void]
     def compile
       print "\n\n------>calling restwink compile method...."
-     
-      #Dir.mktmpdir do |root|
-    
-        @version, @uri = get_wink_uri(@configuration)
-         print "\n\n*****Restwink uri: "
-         print @uri
-         print "\n\n*****Restwink version: "
-         print @version
-         print "\n"
-       #  download_and_unpack_archive(root)
-      #end  
-        
-      #LibertyBuildpack::Util.download(@version,@uri, 'wink libraries', jar_name(@version), @lib_directory)
+      @version, @uri = get_wink_uri(@configuration)
+      print "\n\n*****Restwink uri: "
+      print @uri
+      print "\n\n*****Restwink version: "
+      print @version
+      print "\n"
+      
       download_start_time = Time.now
       jar_name=jar_name(@version)
       print "-----> Downloading #{jar_name} from #{@uri} "
 
       LibertyBuildpack::Util::ApplicationCache.new.get(@uri) do |file| # TODO: Use global cache #50175265
-       system "cp #{file.path} #{File.join(@lib_directory, jar_name)}"
-      puts "(#{(Time.now - download_start_time).duration})"
-    end
-
-     
-    end
+        system "cp #{file.path} #{File.join(@lib_directory, jar_name)}"
+        puts "(#{(Time.now - download_start_time).duration})"
+      end
+  end
     
-    def get_wink_uri(configuration)
+   def get_wink_uri(configuration)
       version, uri=LibertyBuildpack::Repository::ConfiguredItem.find_item(configuration)
       uri=uri["uri"]
       return version, uri
-  
-    end
+   end
     
-    def download_and_unpack_archive(root)
-      # all file types filtered here should be handled inside block.
-     
-     
-     #if @uri.end_with?('.tgz', '.tar.gz', '.zip', 'jar')
-           print "\n\n----->Downloading from #{@uri} ... "
-           download_start_time = Time.now
-           LibertyBuildpack::Util::ApplicationCache.new.get(@uri) do |file|
-           print "(#{(Time.now - download_start_time).duration}).\n"
-           install_archive(file, root)
-      #      end
-    # else
-        # shouldn't happen, expect index.yml or component_index.yml to always
-        # name files that can be handled here.
-          print("Unknown file type, not downloaded, at #{@uri}\n")
-     end
-    end
-
-
-
-    def install_archive(file, root)
-           print '------->Installing archive ... '
-           install_start_time = Time.now
-     #      if @uri.end_with?('.zip', 'jar')
-      #         system "unzip -oq -d #{root} #{file.path} 2>&1"
-       #    elsif @uri.end_with?('tar.gz', '.tgz')
-               system "tar -zxf #{file.path} -C #{root} 2>&1"
-        #   else
-               # shouldn't really happen
-         #      print("Unknown file type, not installed, at #{@uri}.\n")
-         #  end
-           print("\n")
-           puts "(#{(Time.now - install_start_time).duration}).\n"
-     
-    end
+    
     # Does nothing
     #
     # @return [void]
@@ -138,13 +95,13 @@ module LibertyBuildpack::Framework
     end
 
   
-      def id(version)
+    def id(version)
        "wink-#{version}"
-      end
+    end
 
-      def jar_name(version)
+    def jar_name(version)
         "#{id version}.jar"
-      end
+    end
 
     
   end
