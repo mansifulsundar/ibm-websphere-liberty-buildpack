@@ -76,7 +76,16 @@ module LibertyBuildpack::Framework
        #  download_and_unpack_archive(root)
       #end  
         
-      LibertyBuildpack::Util.download(@version,@uri, 'wink libraries', jar_name(@version), @lib_directory)
+      #LibertyBuildpack::Util.download(@version,@uri, 'wink libraries', jar_name(@version), @lib_directory)
+      download_start_time = Time.now
+      jar_name=jar_name(@version)
+      print "-----> Downloading #{jar_name} from #{@uri} "
+
+      LibertyBuildpack::Util::ApplicationCache.new.get(@uri) do |file| # TODO: Use global cache #50175265
+       system "cp #{file.path} #{File.join(@lib_directory, jar_name)}"
+      puts "(#{(Time.now - download_start_time).duration})"
+    end
+
      
     end
     
