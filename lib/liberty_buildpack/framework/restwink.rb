@@ -71,12 +71,13 @@ module LibertyBuildpack::Framework
       print @version
       print "\n"
       
-      download_start_time = Time.now
-      jar_name=jar_name(@version)
-      print "-----> Downloading wink libraries from #{@uri} "
+     
+     # jar_name=jar_name(@version)
+      print "-----> Downloading wink jars from #{@uri} "
 
       LibertyBuildpack::Util::ApplicationCache.new.get(@uri) do |file| # TODO: Use global cache #50175265
-         system "tar -zxf #{file.path} -C #{@lib_directory} 2>&1"
+        download_start_time = Time.now
+        system "tar -zxf #{file.path} -C #{@lib_directory} 2>&1"
         print "\n------>Untared wink tar to #{@lib_directory}....."
         puts "(#{(Time.now - download_start_time).duration})"
       end
@@ -100,9 +101,9 @@ module LibertyBuildpack::Framework
        "wink-#{version}"
     end
 
-    def jar_name(version)
-        "#{id version}.jar"
-    end
+  #  def jar_name(version)
+   #     "#{id version}.jar"
+   # end
 
     
   end
