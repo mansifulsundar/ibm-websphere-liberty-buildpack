@@ -77,7 +77,7 @@ module LibertyBuildpack::Framework
 
       LibertyBuildpack::Util::ApplicationCache.new.get(@uri) do |file| # TODO: Use global cache #50175265
         system "cp #{file.path} #{File.join(@lib_directory, jar_name)}"
-        print "\n------>Copied jar to #{@lib_directory...}"
+        print "\n------>Copied jar to #{@lib_directory}....."
         puts "(#{(Time.now - download_start_time).duration})"
       end
   end
