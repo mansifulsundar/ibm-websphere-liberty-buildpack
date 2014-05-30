@@ -46,10 +46,9 @@ module LibertyBuildpack::Framework
       @app_dir = context[:app_dir]
     end
 
-    # Detects whether this application is suitable for auto-reconfiguration
+    # Detects whether this application is wink application
     #
-    # @return [String] returns +spring-auto-reconfiguration-<version>+ if the application is a candidate for
-    #                  auto-reconfiguration otherwise returns +nil+
+    # @return [String] otherwise returns +nil+
     def detect
       if File.exist?("#{@app_dir}/WEB-INF/lib/wink-1.4.jar")
     	  return "apche-wink-1.4"
@@ -59,7 +58,7 @@ module LibertyBuildpack::Framework
       end
     end
 
-    # Downloads the Auto-reconfiguration JAR
+
     #
     # @return [void]
     def compile
@@ -72,7 +71,7 @@ module LibertyBuildpack::Framework
       print "\n"
       
      
-     # jar_name=jar_name(@version)
+  
       print "-----> Downloading wink jars from #{@uri} "
 
       LibertyBuildpack::Util::ApplicationCache.new.get(@uri) do |file| # TODO: Use global cache #50175265
@@ -100,10 +99,6 @@ module LibertyBuildpack::Framework
     def id(version)
        "wink-#{version}"
     end
-
-  #  def jar_name(version)
-   #     "#{id version}.jar"
-   # end
 
     
   end
