@@ -80,7 +80,7 @@ module LibertyBuildpack::Framework
         print "\n------>Untared wink tar to #{@lib_directory}....."
         puts "(#{(Time.now - download_start_time).duration})"
       end
-  end
+   end
     
    def get_wink_uri(configuration)
       version, uri=LibertyBuildpack::Repository::ConfiguredItem.find_item(configuration)
@@ -95,12 +95,6 @@ module LibertyBuildpack::Framework
     def release
     end
 
-  
-    def id(version)
-       "wink-#{version}"
-    end
-
-    
   end
 
 end
