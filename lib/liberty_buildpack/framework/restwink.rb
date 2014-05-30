@@ -51,7 +51,7 @@ module LibertyBuildpack::Framework
     # @return [String] returns +spring-auto-reconfiguration-<version>+ if the application is a candidate for
     #                  auto-reconfiguration otherwise returns +nil+
     def detect
-      if File.exist?("#{@app_dir}/WEB-INF/lib/wink.*.jar")
+      if File.exist?("#{@app_dir}/WEB-INF/lib/activation-1.1.jar")
     	  return "apche-wink-1.4"
     
       else
